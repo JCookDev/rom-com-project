@@ -35,6 +35,14 @@ function displayRandomCover() {
   showCurrentCover();
 }
 
+function viewForm() {
+  formView.classList.toggle('hidden');
+  homeView.classList.toggle('hidden');
+  saveButton.classList.toggle('hidden');
+  randomCoverButton.classList.toggle('hidden');
+  homeButton.classList.toggle('hidden');
+}
+
 function showCurrentCover() {
   coverImage.src = currentCover.cover;
   title.innerText = currentCover.title;
