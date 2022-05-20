@@ -2,7 +2,7 @@
 var coverImage = document.querySelector('.cover-image');
 var title = document.querySelector('.cover-title');
 var tagline1 = document.querySelector('.tagline-1');
-var tagline2 = document.querySelector('tagline-2');
+var tagline2 = document.querySelector('.tagline-2');
 
 var randomCoverButton = document.querySelector('.random-cover-button');
 var saveButton = document.querySelector('.save-cover-button');
@@ -53,6 +53,18 @@ function displaySaved() {
   homeButton.classList.toggle('hidden');
   randomCoverButton.classList.toggle('hidden');
   saveButton.classList.toggle('hidden');
+  showCoversSection()
+}
+
+function showCoversSection() {
+  saveCoverView.innerHTML = '';
+  for (var i = 0; i < savedCovers.length; i++) {
+    saveCoverView.innerHTML +=
+    `<div class = "small-cover" id='${i}'>
+      <img class = "small-cover" src = "${savedCovers[i].cover}">
+      <h3 class = "cover-title" >${savedCovers[i].title}</h2>
+    </div>`;
+  }
 }
 
 function showCurrentCover() {
