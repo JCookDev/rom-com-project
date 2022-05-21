@@ -30,6 +30,7 @@ var currentCover = new Cover();
 
 // Add your event listeners here 👇
 window.addEventListener('load', displayRandomCover)
+
 randomCoverButton.addEventListener('click', displayRandomCover);
 makeButton.addEventListener('click', viewForm);
 viewButton.addEventListener('click', displaySaved);
@@ -96,7 +97,7 @@ function showCoversSection() {
   saveCoverView.innerHTML = '';
   for (var i = 0; i < savedCovers.length; i++) {
     saveCoverView.innerHTML +=
-      `<div class="mini-cover" id="${i}">
+      `<div class="mini-cover" id="${i}" ondblclick="deleteSavedCovers(this)">
           <img class="mini-cover" src="${savedCovers[i].cover}">
           <h2 class="cover-title" >${savedCovers[i].title}</h2>
           <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> and <span class="tagline-2">${savedCovers[i].tagline2}</span></h3>
@@ -143,6 +144,11 @@ function createNewBook() {
   makeMyBook(currentCover);
   showCurrentCover();
   displayHomePage();
+}
+
+function deleteSavedCovers(div) {
+  savedCovers.splice(div.id, 1);
+  div.remove();
 }
 
 // We've provided one function to get you started
