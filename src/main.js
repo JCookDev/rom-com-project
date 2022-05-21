@@ -7,7 +7,7 @@ var tagline2 = document.querySelector('.tagline-2');
 var randomCoverButton = document.querySelector('.random-cover-button');
 var saveButton = document.querySelector('.save-cover-button');
 var viewButton = document.querySelector('.view-saved-button');
-var createButton = document.querySelector('.make-new-button');
+var makeButton = document.querySelector('.make-new-button');
 var homeButton = document.querySelector('.home-button');
 var newBookButton = document.querySelector('.create-new-book-button');
 
@@ -15,6 +15,11 @@ var homeView = document.querySelector('.home-view');
 var formView = document.querySelector('.form-view');
 var savedView = document.querySelector('.saved-view');
 var saveCoverView = document.querySelector('.saved-covers-section');
+
+var coverInput = document.querySelector('#cover');
+var titleInput = document.querySelector('#title');
+var descriptor1Input = document.querySelector('#descriptor1');
+var descriptor2Input = document.querySelector('#descriptor2');
 
 // We've provided a few variables below
 var savedCovers = [
@@ -24,9 +29,12 @@ var savedCovers = [
 var currentCover = new Cover();
 
 // Add your event listeners here 👇
+window.addEventListener('load', displayRandomCover)
 randomCoverButton.addEventListener('click', displayRandomCover);
-createButton.addEventListener('click', viewForm);
+makeButton.addEventListener('click', viewForm);
 viewButton.addEventListener('click', displaySaved);
+homeButton.addEventListener('click', displayHomePage);
+newBookButton.addEventListener('click', createNewBook)
 
 // Create your event handlers and other functions here 👇
 function displayRandomCover() {
@@ -38,32 +46,81 @@ function displayRandomCover() {
   showCurrentCover();
 }
 
+function showElements(elements) {
+  for (var i = 0; i < elements.length; i++) {
+  if (elements[i].classList.contains('hidden')) {
+    elements[i].classList.remove('hidden')
+    }
+  }
+}
+
+function hideElements(elements) {
+  for (var i = 0; i < elements.length; i++) {
+  if (!elements[i].classList.contains('hidden')) {
+    elements[i].classList.add('hidden')
+    }
+  }
+}
+
+function saveInput() {
+  covers.push(coverInput.value);
+  titles.push(titleInput.value);
+  descriptors.push(descriptor1Input.value);
+  descriptors.push(descriptor2Input.value);
+}
+
+function makeMyBook(book) {
+  book.cover = coverInput.value;
+  book.title = titleInput.value;
+  book.tagline1 = descriptor1Input.value;
+  book.tagline2 = descriptor2Input.value;
+}
+
+function createNewBook() {
+  saveInput();
+  makeMyBook(currentCover);
+}
+
 function viewForm() {
-  formView.classList.toggle('hidden');
-  homeView.classList.toggle('hidden');
-  saveButton.classList.toggle('hidden');
-  randomCoverButton.classList.toggle('hidden');
-  homeButton.classList.toggle('hidden');
+  showElements([formView]);
+  showElements([homeButton]);
+  hideElements([homeView]);
+  hideElements([savedView]);
+  hideElements([randomCoverButton]);
+  hideElements([saveButton]);
 }
 
 function displaySaved() {
-  saveCoverView.classList.toggle('hidden');
-  formView.classList.toggle('hidden');
-  homeView.classList.toggle('hidden');
-  homeButton.classList.toggle('hidden');
-  randomCoverButton.classList.toggle('hidden');
-  saveButton.classList.toggle('hidden');
-  showCoversSection()
+  showElements([savedView]);
+  showElements([homeButton]);
+  hideElements([formView]);
+  hideElements([homeView]);
+  hideElements([randomCoverButton]);
+  hideElements([saveButton]);
+  showCoversSection();
 }
+
+function displayHomePage() {
+  hideElements([savedView]);
+  hideElements([formView]);
+  showElements([homeView]);
+  showElements([randomCoverButton]);
+  showElements([saveButton]);
+  hideElements([homeButton]);
+}
+
 
 function showCoversSection() {
   saveCoverView.innerHTML = '';
   for (var i = 0; i < savedCovers.length; i++) {
-    saveCoverView.innerHTML +=
-    `<div class = "small-cover" id='${i}'>
-      <img class = "small-cover" src = "${savedCovers[i].cover}">
-      <h3 class = "cover-title" >${savedCovers[i].title}</h2>
-    </div>`;
+    savedCoverView.innerHTML +=
+      `<div class="mini-cover" id="${i}">
+          <img class="mini-cover" src="${savedCovers[i].cover}">
+          <h2 class="cover-title" >${savedCovers[i].title}</h2>
+          <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> and <span class="tagline-2">${savedCovers[i].tagline2}</span></h3>
+          <img class="price-tag" src="./assets/price.png">
+          <img class="overlay" src="./assets/overlay.png">
+      </div>`;
   }
 }
 
