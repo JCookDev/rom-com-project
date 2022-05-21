@@ -34,7 +34,8 @@ randomCoverButton.addEventListener('click', displayRandomCover);
 makeButton.addEventListener('click', viewForm);
 viewButton.addEventListener('click', displaySaved);
 homeButton.addEventListener('click', displayHomePage);
-newBookButton.addEventListener('click', createNewBook)
+newBookButton.addEventListener('click', createNewBook);
+saveButton.addEventListener('click', saveCover);
 
 // Create your event handlers and other functions here 👇
 function displayRandomCover() {
@@ -60,25 +61,6 @@ function hideElements(elements) {
     elements[i].classList.add('hidden')
     }
   }
-}
-
-function saveInput() {
-  covers.push(coverInput.value);
-  titles.push(titleInput.value);
-  descriptors.push(descriptor1Input.value);
-  descriptors.push(descriptor2Input.value);
-}
-
-function makeMyBook(book) {
-  book.cover = coverInput.value;
-  book.title = titleInput.value;
-  book.tagline1 = descriptor1Input.value;
-  book.tagline2 = descriptor2Input.value;
-}
-
-function createNewBook() {
-  saveInput();
-  makeMyBook(currentCover);
 }
 
 function viewForm() {
@@ -113,7 +95,7 @@ function displayHomePage() {
 function showCoversSection() {
   saveCoverView.innerHTML = '';
   for (var i = 0; i < savedCovers.length; i++) {
-    savedCoverView.innerHTML +=
+    saveCoverView.innerHTML +=
       `<div class="mini-cover" id="${i}">
           <img class="mini-cover" src="${savedCovers[i].cover}">
           <h2 class="cover-title" >${savedCovers[i].title}</h2>
@@ -124,12 +106,45 @@ function showCoversSection() {
   }
 }
 
+function saveCover() {
+  currentCover.cover = coverImage.src;
+  currentCover.title = title.innerText;
+  currentCover.tagline1 = tagline1.innerText;
+  currentCover.tagline2 = tagline2.innerText;
+  if (!savedCovers.includes(currentCover)) {
+    savedCovers.push(currentCover);
+  }
+}
+
+function makeMyBook(book) {
+  newBookButton.type = 'button';
+  book.cover = coverInput.value;
+  book.title = titleInput.value;
+  book.tagline1 = descriptor1Input.value;
+  book.tagline2 = descriptor2Input.value;
+}
+
+function saveInput() {
+  covers.push(coverInput.value);
+  titles.push(titleInput.value);
+  descriptors.push(descriptor1Input.value);
+  descriptors.push(descriptor2Input.value);
+}
+
 function showCurrentCover() {
   coverImage.src = currentCover.cover;
   title.innerText = currentCover.title;
   tagline1.innerText = currentCover.tagline1;
   tagline2.innerText = currentCover.tagline2;
 }
+
+function createNewBook() {
+  saveInput();
+  makeMyBook(currentCover);
+  showCurrentCover();
+  displayHomePage();
+}
+
 // We've provided one function to get you started
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
