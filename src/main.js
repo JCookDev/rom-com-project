@@ -30,11 +30,13 @@ var currentCover = new Cover();
 
 // Add your event listeners here 👇
 window.addEventListener('load', displayRandomCover)
+
 randomCoverButton.addEventListener('click', displayRandomCover);
 makeButton.addEventListener('click', viewForm);
 viewButton.addEventListener('click', displaySaved);
 homeButton.addEventListener('click', displayHomePage);
-newBookButton.addEventListener('click', createNewBook)
+newBookButton.addEventListener('click', createNewBook);
+saveButton.addEventListener('click', saveCover);
 
 // Create your event handlers and other functions here 👇
 function displayRandomCover() {
@@ -44,6 +46,13 @@ function displayRandomCover() {
   var tagline2 = descriptors[getRandomIndex(descriptors)];
   currentCover = new Cover(coverImage, title, tagline1, tagline2);
   showCurrentCover();
+}
+
+function showCurrentCover() {
+  coverImage.src = currentCover.cover;
+  title.innerText = currentCover.title;
+  tagline1.innerText = currentCover.tagline1;
+  tagline2.innerText = currentCover.tagline2;
 }
 
 function showElements(elements) {
@@ -60,25 +69,6 @@ function hideElements(elements) {
     elements[i].classList.add('hidden')
     }
   }
-}
-
-function saveInput() {
-  covers.push(coverInput.value);
-  titles.push(titleInput.value);
-  descriptors.push(descriptor1Input.value);
-  descriptors.push(descriptor2Input.value);
-}
-
-function makeMyBook(book) {
-  book.cover = coverInput.value;
-  book.title = titleInput.value;
-  book.tagline1 = descriptor1Input.value;
-  book.tagline2 = descriptor2Input.value;
-}
-
-function createNewBook() {
-  saveInput();
-  makeMyBook(currentCover);
 }
 
 function viewForm() {
@@ -113,8 +103,8 @@ function displayHomePage() {
 function showCoversSection() {
   saveCoverView.innerHTML = '';
   for (var i = 0; i < savedCovers.length; i++) {
-    savedCoverView.innerHTML +=
-      `<div class="mini-cover" id="${i}">
+    saveCoverView.innerHTML +=
+      `<div class="mini-cover" id="${i}" ondblclick="deleteSavedCovers(this)">
           <img class="mini-cover" src="${savedCovers[i].cover}">
           <h2 class="cover-title" >${savedCovers[i].title}</h2>
           <h3 class="tagline">A tale of <span class="tagline-1">${savedCovers[i].tagline1}</span> and <span class="tagline-2">${savedCovers[i].tagline2}</span></h3>
@@ -124,12 +114,43 @@ function showCoversSection() {
   }
 }
 
-function showCurrentCover() {
-  coverImage.src = currentCover.cover;
-  title.innerText = currentCover.title;
-  tagline1.innerText = currentCover.tagline1;
-  tagline2.innerText = currentCover.tagline2;
+function makeMyBook(book) {
+  newBookButton.type = 'button';
+  book.cover = coverInput.value;
+  book.title = titleInput.value;
+  book.tagline1 = descriptor1Input.value;
+  book.tagline2 = descriptor2Input.value;
 }
+
+function saveInput() {
+  covers.push(coverInput.value);
+  titles.push(titleInput.value);
+  descriptors.push(descriptor1Input.value);
+  descriptors.push(descriptor2Input.value);
+}
+
+function saveCover() {
+  currentCover.cover = coverImage.src;
+  currentCover.title = title.innerText;
+  currentCover.tagline1 = tagline1.innerText;
+  currentCover.tagline2 = tagline2.innerText;
+  if (!savedCovers.includes(currentCover)) {
+    savedCovers.push(currentCover);
+  }
+}
+
+function createNewBook() {
+  saveInput();
+  makeMyBook(currentCover);
+  showCurrentCover();
+  displayHomePage();
+}
+
+function deleteSavedCovers(div) {
+  savedCovers.splice(div.id, 1);
+  div.remove();
+}
+
 // We've provided one function to get you started
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
