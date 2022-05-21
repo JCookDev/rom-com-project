@@ -48,6 +48,13 @@ function displayRandomCover() {
   showCurrentCover();
 }
 
+function showCurrentCover() {
+  coverImage.src = currentCover.cover;
+  title.innerText = currentCover.title;
+  tagline1.innerText = currentCover.tagline1;
+  tagline2.innerText = currentCover.tagline2;
+}
+
 function showElements(elements) {
   for (var i = 0; i < elements.length; i++) {
   if (elements[i].classList.contains('hidden')) {
@@ -107,16 +114,6 @@ function showCoversSection() {
   }
 }
 
-function saveCover() {
-  currentCover.cover = coverImage.src;
-  currentCover.title = title.innerText;
-  currentCover.tagline1 = tagline1.innerText;
-  currentCover.tagline2 = tagline2.innerText;
-  if (!savedCovers.includes(currentCover)) {
-    savedCovers.push(currentCover);
-  }
-}
-
 function makeMyBook(book) {
   newBookButton.type = 'button';
   book.cover = coverInput.value;
@@ -132,11 +129,14 @@ function saveInput() {
   descriptors.push(descriptor2Input.value);
 }
 
-function showCurrentCover() {
-  coverImage.src = currentCover.cover;
-  title.innerText = currentCover.title;
-  tagline1.innerText = currentCover.tagline1;
-  tagline2.innerText = currentCover.tagline2;
+function saveCover() {
+  currentCover.cover = coverImage.src;
+  currentCover.title = title.innerText;
+  currentCover.tagline1 = tagline1.innerText;
+  currentCover.tagline2 = tagline2.innerText;
+  if (!savedCovers.includes(currentCover)) {
+    savedCovers.push(currentCover);
+  }
 }
 
 function createNewBook() {
